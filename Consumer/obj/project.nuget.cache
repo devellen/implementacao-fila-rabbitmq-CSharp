@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "u9ia6k1EWyM=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\LENOVO\\Documents\\ifpe\\atv2-sd\\Consumer\\Consumer.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\LENOVO\\.nuget\\packages\\rabbitmq.client\\7.1.2\\rabbitmq.client.7.1.2.nupkg.sha512",
+    "C:\\Users\\LENOVO\\.nuget\\packages\\system.io.pipelines\\8.0.0\\system.io.pipelines.8.0.0.nupkg.sha512",
+    "C:\\Users\\LENOVO\\.nuget\\packages\\system.threading.ratelimiting\\8.0.0\\system.threading.ratelimiting.8.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
