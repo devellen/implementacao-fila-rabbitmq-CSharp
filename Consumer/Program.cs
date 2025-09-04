@@ -17,15 +17,12 @@ class Program
 
         await channel.ExchangeDeclareAsync(exchange: "order_notifications", type: "topic", durable: true);
 
-        // Criar uma queue exclusiva para este consumer (auto-delete quando disconnect)
         string queueName = await channel.QueueDeclareAsync(
             queue: $"notifications.{userId}", durable: true, exclusive: false, autoDelete: false, arguments: null);
 
-        // Bind com routing key do usuário
         string routingKey = $"user.{userId}";
         await channel.QueueBindAsync(queue: queueName, exchange: "order_notifications", routingKey: routingKey);
 
-        // QoS para não pegar muitas mensagens de uma vez
         await channel.BasicQosAsync(prefetchSize: 0, prefetchCount: 1, global: false);
 
         var consumer = new AsyncEventingBasicConsumer(channel);
@@ -39,13 +36,12 @@ class Program
                 var doc = JsonSerializer.Deserialize<JsonElement>(message);
                 Console.WriteLine($"[Notificado para {userId}] {message}");
 
-                // Acknowledge
                 await channel.BasicAckAsync(deliveryTag: ea.DeliveryTag, multiple: false);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Erro processando mensagem: {ex.Message}");
-                // NACK e enviar para dead-letter ou requeue = false para descartar
+
                 await channel.BasicNackAsync(ea.DeliveryTag, multiple: false, requeue: false);
             }
         };

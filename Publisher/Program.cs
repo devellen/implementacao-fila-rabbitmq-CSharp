@@ -12,7 +12,6 @@ class Program
         using var connection = await factory.CreateConnectionAsync();
         IChannel channel = await connection.CreateChannelAsync();
 
-        // Exchange topic para permitir routing por user.{userId} ou broadcast
         await channel.ExchangeDeclareAsync(exchange: "order_notifications", type: "topic", durable: true);
 
         Console.WriteLine("Digite ENTER para criar eventos de pedidos...");
@@ -24,7 +23,7 @@ class Program
             Console.ReadLine();
 
             string orderId = Guid.NewGuid().ToString("N").Substring(0, 8);
-            string userId = "user-" + (rnd.Next(1, 4)); // simula 3 usuários: user-1, user-2, user-3
+            string userId = "user-" + (rnd.Next(1, 4)); 
 
             var statuses = new[] { "Recebido", "Preparacao", "Dispachado", "Entregue" };
 
@@ -49,7 +48,7 @@ class Program
                 );
 
                 Console.WriteLine($"[x] Enviado {status} -> {routingKey} : {JsonSerializer.Serialize(msg)}");
-                await Task.Delay(2000); // delay entre status
+                await Task.Delay(2000);
             }
             Console.WriteLine("---- Pedido simulado enviado para vários status ----");
         }
