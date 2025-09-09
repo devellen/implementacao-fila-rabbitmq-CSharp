@@ -3,7 +3,7 @@ using System.Text;
 using System.Text.Json;
 using RabbitMQ.Client;
 using System.Threading.Tasks;
-
+ 
 class Program
 {
     static async Task Main()
@@ -32,9 +32,8 @@ class Program
                 var msg = new
                 {
                     orderId,
-                    userId,
                     status,
-                    timestamp = DateTime.UtcNow
+                    timestamp = DateTime.Now
                 };
 
                 string routingKey = $"user.{userId}";
@@ -47,10 +46,10 @@ class Program
                     body: body
                 );
 
-                Console.WriteLine($"[x] Enviado {status} -> {routingKey} : {JsonSerializer.Serialize(msg)}");
-                await Task.Delay(2000);
+                Console.WriteLine($"{status} -> {routingKey} : {JsonSerializer.Serialize(msg)}");
+                await Task.Delay(5000);
             }
-            Console.WriteLine("---- Pedido simulado enviado para vários status ----");
+            Console.WriteLine("#### Aperte enter para o próximo pedido ####");
         }
     }
 }
